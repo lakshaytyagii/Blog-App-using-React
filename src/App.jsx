@@ -5,6 +5,7 @@ import authService, { AuthService } from './appwrite/auth';
 import { login,logout } from './store/authSlice';
 import {Header} from './components';
 import { Footer } from './components';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   // This is the syntax to import a .env file variable
@@ -25,7 +26,7 @@ function App() {
       }
     })
     .finally(()=>setLoading(false));
-    // finally is run compulsarily in the end
+    // finally is run compulsarily in the end so that we trun loading false and the content is shown
 
   },[])
 
@@ -34,8 +35,8 @@ function App() {
     <div className='min-h-screen flex flex-wrap content-between bg-gray-400'> 
     <div className='w-full block'>
       <Header/>
-      todo
-      {/* <Outlet/> */}
+      todo:
+      <Outlet/>
       <Footer/>
 
     </div>

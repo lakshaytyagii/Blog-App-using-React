@@ -12,22 +12,22 @@ const Select=forwardRef(
     <div className='w-full'>
         {label && <label htmlFor={id}className=''>{label}</label>}
         <select
-          {...prop}
+          {...props}
           id={id}
           ref={ref}
           className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full${className}`}
 
         >
             {/* if options has value only then it will be mapped */}
-            {options?.map((option)=>{
+            {options?.map((option)=>(
                 <option key={option} value={option}>
                     {option}
 
-                </option>
-            })}
+               </option>
+              ))}
         </select>
         </div>
   )
 })
 // unlike input we use a different forward ref syntax
-export default Select
+export default (Select);

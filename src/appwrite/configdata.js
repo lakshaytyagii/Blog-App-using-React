@@ -35,7 +35,7 @@ export class Service{
         }
 
     }
-    // slug here is the id for the doocument
+    // slug here is the id for the doocument, hence handled carefully out of the object
     async updatePost(slug,{title,content,featuredImage,status}){
         try{
             return await this.databases.updateDocument(
@@ -101,6 +101,9 @@ export class Service{
     }
 
     // file uploading
+    // it is done inside storage for images
+    // here we give a unique id to file which is stored in featuredimage string of the post 
+    // this id will be used to delete the file
 
     async uploadFile(file){
         try {

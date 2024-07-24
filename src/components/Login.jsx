@@ -75,14 +75,14 @@ export default function Login() {
                             // value here becomes regular expression from regexr.com 
                             //  here /.../ is the reg-ex.test(value) which will check the value of email submitted or say its incorrect
                             matchPattern:(value)=>{
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                                "Email address must be a valid address"
+                                 /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                                    "Email address must be a valid address"
 
                             }
                         }
                     })}
                     />
-                    {/* here we dont need validation only to mark if it is compulsory to fill this input field or not */}
+                    {/* here we need validation only to mark if it is compulsory to fill this input field or not */}
                     <Input
                      label='Password:'
                      placeholder="enter your Password"

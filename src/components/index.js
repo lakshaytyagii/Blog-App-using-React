@@ -11,6 +11,7 @@ import Protected from "./AuthLayout";
 import PostForm from "./PostForm"
 import Login from "./Login";
 import Signup from "./Signup"
+import LogoutBtn from "./header/LogoutBtn";
 export {
     Header,
     Footer,
@@ -24,7 +25,8 @@ export {
     Protected,
     PostForm,
     Login,
-    Signup
+    Signup,
+    LogoutBtn
 
     
 }

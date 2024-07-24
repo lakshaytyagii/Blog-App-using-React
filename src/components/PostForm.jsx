@@ -1,7 +1,6 @@
 import React,{useCallback, useEffect} from 'react'
 import { useForm } from 'react-hook-form'
 import {Button,Input,Select,RTE} from './index'
-import Service from '../appwrite/configdata';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import service from '../appwrite/configdata';
@@ -24,23 +23,23 @@ export default function PostForm({post}) {
         }
     })
     const navigate=useNavigate()
-    const userData=useSelector(state=> state.user.userData);
+    const userData=useSelector(state=> state.auth.userData);
     // The data parameter in the submit function is an object containing the current values of all form fields. For example, 
     // if the form includes fields for title, slug, content, image, and status, the data object will have corresponding properties 
     // with the values entered by the user.
     const submit = async (data)=>{
         if(post){
             // here from the data we get from useForm  data.image[0] itself is the file which will be saved
-            const file= data.image[0] ? await Service.uploadFile(data.image[0]) :null
+            const file= data.image[0] ? await service.uploadFile(data.image[0]) :null
 
             //if there is a data from useForm then we delete the feactured image of existing post to give it a new one
             if (file){
-                Service.deleteFile(post.featuredImage);
+                service.deleteFile(post.featuredImage);
             }
             
             // on updating the post we give a new id which belongs to the uploaded data file 
             // to  the featured image thus the existing feactured image of the post is updated
-            const dbPost = await Service.updatePost(post.$id, {
+            const dbPost = await service.updatePost(post.$id, {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
             });
@@ -53,13 +52,13 @@ export default function PostForm({post}) {
         // incase we dont get a existing post then
         else {
             // first we uplod the new file from the useForm editor
-            const file = await appwriteService.uploadFile(data.image[0]);
+            const file = await service.uploadFile(data.image[0]);
             
             // we use store to get userData from the file which is needed in .createPost
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                const dbPost = await service.createPost({ ...data, userId: userData.$id });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -79,15 +78,18 @@ export default function PostForm({post}) {
 
             // if there is no value then return empty string
 
-            return ''
-
         }
+         return ''
     },[])
 
     useEffect(()=>{
+        // When a change occurs, it calls the provided callback with value (the form values) and { name } (information about the changed field).
         const subscription=watch((value,{name})=>{
             if(name==='title'){
-                setValue('slug',slugTransform(value.title,{shouldValidate: true}))
+                // The { shouldValidate: true } option tells the form library to run any validation rules associated with the 'slug' field after updating its value.
+// This ensures that the new value for 'slug' is immediately checked for correctness according to the form's validation schema or rules.
+// If the new slug value violates any validation rules, the form will display corresponding validation errors.
+                setValue('slug',slugTransform(value.title),{shouldValidate: true})
             }
 
         })

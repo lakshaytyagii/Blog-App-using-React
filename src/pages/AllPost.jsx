@@ -1,26 +1,36 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
 import { Container,PostCard } from '../components' 
-import { Service } from '../appwrite/configdata'
+import service  from '../appwrite/configdata'
 
 
 function AllPost() {
-    const [post,setPosts]=useState([])
-    useEffect(()=>{
-        Service.getAllposts([]).then((posts)=>{
-            if(posts){setPosts(posts.documents)
-    
+    const [posts,setPosts]=useState([])
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const posts = await service.getAllposts();
+                if (posts) {
+                    setPosts(posts.documents);
+                    // console.log(posts.documents);
+                }
+            } catch (error) {
+                console.error('Failed to fetch posts:', error);
             }
-        })  
-    },[])
+        };
+
+        fetchPosts();
+    }, []);
     
+    posts.map((post)=>console.log(post.$id));
   return (
     <div className='w-full py-8'>
         <Container>
             <div className='flex flex-wrap'>
                 {posts.map((post)=>(
+                    
                     <div key={post.$id}>
-                        <PostCard post={post}/>
+                        <PostCard $id={post} title={post.title} featuredImage={post.featuredImage}/>
 
                     </div>
                     

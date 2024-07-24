@@ -46,7 +46,7 @@ export class AuthService{
     async login({ email, password }) {
         try {
             console.log("Attempting login with email:", email);
-          const session = await this.account.createEmailSession(email, password);
+          const session = await this.account.createEmailPasswordSession(email, password);
           console.log("Login successful:", session);
           return session;
         } catch (error) {
@@ -68,7 +68,7 @@ export class AuthService{
           return null;
         }
       }
-    // deletesessions logsout alll of the users
+    // deletesessions logsout all of the users
     async logout(){
         try{
             await this.account.deleteSessions()
